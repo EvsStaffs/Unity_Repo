@@ -20,6 +20,9 @@ public class TopDownCharacterController : MonoBehaviour
     
     //The direction that the player is moving in.
     private Vector2 m_playerDirection;
+    //private Vector2 fireDefault = Vector2.down;
+    private Vector2 lastDirection;
+    private float _canFire = -1f; 
    
 
     [Header("Movement parameters")]
@@ -27,6 +30,18 @@ public class TopDownCharacterController : MonoBehaviour
     [SerializeField] private float m_playerSpeed = 200f;
     //The maximum speed the player can move
     [SerializeField] private float m_playerMaxSpeed = 1000f;
+
+    [Header("Projectile parameters")]
+
+    [SerializeField] GameObject m_bulletPrefab;
+    //Reference to our projectile object
+    [SerializeField] Transform m_firePoint;
+    //Where we will be spawning our projectile from
+    [SerializeField] float m_projectileSpeed;
+    //How fast our projectile will travel
+    [SerializeField] float m_fireRate;
+    //How fast our projectile will travel
+
 
     #endregion
 
@@ -85,14 +100,45 @@ public class TopDownCharacterController : MonoBehaviour
         {
             m_animator.SetFloat("Horizontal", m_playerDirection.x);
             m_animator.SetFloat("Vertical", m_playerDirection.y);
+
+            lastDirection = m_playerDirection;
+
         }
 
         // check if an attack has been triggered.
-        if (m_attackAction.IsPressed())
+        if (m_attackAction.IsPressed() && Time.time > _canFire)
         {
             // just log that an attack has been registered for now
             // we will look at how to do this in future sessions.
             Debug.Log("Attack!");
+            _canFire = Time.time + m_fireRate;
+            Fire();
         }
+
+        //Debug.Log(m_playerDirection.normalized.ToString());
+    }
+
+    void Fire()
+    {
+        //Vector3 loc = transform.position + new Vector3(1,1,0);
+        Vector2 fireDir = lastDirection;
+
+        GameObject bulletToSpawn = Instantiate(m_bulletPrefab, m_firePoint.position, Quaternion.identity);
+
+        if (m_playerDirection == Vector2.zero)
+        {
+            if (fireDir == Vector2.zero)
+            {
+                fireDir = Vector2.down;
+            }
+                 
+        } 
+
+
+        if (bulletToSpawn.GetComponent<Rigidbody2D>() != null)
+        {
+           bulletToSpawn.GetComponent<Rigidbody2D>().AddForce(fireDir.normalized * m_projectileSpeed, ForceMode2D.Impulse);
+        }
+        //Debug.Log(m_playerDirection.normalized);
     }
 }
