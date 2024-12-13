@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7807038013523235505}
   - component: {fileID: 6256566791873486514}
   - component: {fileID: 1889082367632233482}
-  - component: {fileID: -3645805635421051602}
-  - component: {fileID: 3992566802748857804}
+  - component: {fileID: -3569030132623939900}
+  - component: {fileID: -3744176468421485354}
   m_Layer: 6
   m_Name: SPR_Projectile
   m_TagString: Untagged
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2809026983784162303, guid: 1bb39a5caf983a949838bbb56c646709, type: 3}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -154,7 +154,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!114 &-3645805635421051602
+--- !u!114 &-3569030132623939900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,10 +163,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8957541863678486177}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ea7ae17fb1e1df4b807781efd416ac6, type: 3}
+  m_Script: {fileID: 11500000, guid: 835325b25188c0543be5c6ea1b96f561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3992566802748857804
+--- !u!114 &-3744176468421485354
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

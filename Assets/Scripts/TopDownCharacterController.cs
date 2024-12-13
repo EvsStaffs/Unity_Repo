@@ -22,7 +22,7 @@ public class TopDownCharacterController : MonoBehaviour
     private Vector2 m_playerDirection;
     //private Vector2 fireDefault = Vector2.down;
     private Vector2 lastDirection;
-    private float _canFire = -1f; 
+    private float _canFire; 
    
 
     [Header("Movement parameters")]
@@ -33,14 +33,14 @@ public class TopDownCharacterController : MonoBehaviour
 
     [Header("Projectile parameters")]
 
-    [SerializeField] GameObject m_bulletPrefab;
+    [SerializeField] GameObject m_projectilePrefab;
     //Reference to our projectile object
     [SerializeField] Transform m_firePoint;
     //Where we will be spawning our projectile from
     [SerializeField] float m_projectileSpeed;
     //How fast our projectile will travel
     [SerializeField] float m_fireRate;
-    //How fast our projectile will travel
+    //How fast our projectile will spawn
 
 
     #endregion
@@ -105,25 +105,39 @@ public class TopDownCharacterController : MonoBehaviour
 
         }
 
+        //Debug.Log(m_playerDirection);
+
         // check if an attack has been triggered.
+
         if (m_attackAction.IsPressed() && Time.time > _canFire)
         {
             // just log that an attack has been registered for now
             // we will look at how to do this in future sessions.
-            Debug.Log("Attack!");
+            //Debug.Log("Attack!");
+
+            // We can fire everytime enough time has passed as a relative
+            // percentage of a second - m_fireRate of 0.5 is every half second / 0.1 is every tenth
             _canFire = Time.time + m_fireRate;
             Fire();
         }
+
+        //if (m_attackAction.IsPressed())
+        //{
+        //    // just log that an attack has been registered for now
+        //    // we will look at how to do this in future sessions.
+        //    //Debug.Log("Attack!");
+
+        //    Fire();
+        //}
 
         //Debug.Log(m_playerDirection.normalized.ToString());
     }
 
     void Fire()
     {
-        //Vector3 loc = transform.position + new Vector3(1,1,0);
         Vector2 fireDir = lastDirection;
 
-        GameObject bulletToSpawn = Instantiate(m_bulletPrefab, m_firePoint.position, Quaternion.identity);
+        GameObject projectileToSpawn = Instantiate(m_projectilePrefab, m_firePoint.position, Quaternion.identity);
 
         if (m_playerDirection == Vector2.zero)
         {
@@ -131,14 +145,27 @@ public class TopDownCharacterController : MonoBehaviour
             {
                 fireDir = Vector2.down;
             }
-                 
-        } 
 
-
-        if (bulletToSpawn.GetComponent<Rigidbody2D>() != null)
-        {
-           bulletToSpawn.GetComponent<Rigidbody2D>().AddForce(fireDir.normalized * m_projectileSpeed, ForceMode2D.Impulse);
         }
-        //Debug.Log(m_playerDirection.normalized);
+
+        if (projectileToSpawn.GetComponent<Rigidbody2D>() != null)
+        {
+
+            projectileToSpawn.GetComponent<Rigidbody2D>().AddForce(fireDir.normalized * m_projectileSpeed, ForceMode2D.Impulse);
+
+        }
+        //Debug.Log(m_playerDirection);
     }
+
+
+    //void Fire()
+    //{
+    //    GameObject projectileToSpawn = Instantiate(m_projectilePrefab, m_firePoint.position, Quaternion.identity);
+
+    //    if (projectileToSpawn.GetComponent<Rigidbody2D>() != null)
+    //    {
+    //        projectileToSpawn.GetComponent<Rigidbody2D>().AddForce(Vector2.up * m_projectileSpeed, ForceMode2D.Impulse);
+    //    }    
+
+    //}
 }
